@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Page Bowers
+  description: Software Engineer
+  company: Microsoft Azure
+
+  license: license (GPLv2, CC-BY, etc)
+
+  min_ansible_version: 1.2
+
+  galaxy_tags:
+    - iscsi
+    - targetcli
+
+
+dependencies:
+  - { role: OndrejHome.targetcli-modules }
