@@ -1,0 +1,82 @@
+---
+# defaults file for deploy_infrastructure
+alias: pabowers
+sap_sid: PV1
+sap_instancenum: 00
+use_hana2: true
+az_resource_group_name: "{{ alias }}-{{ sap_sid}}_group"
+az_resource_group_region: westus2
+vnet_name: "{{ sap_sid }}_vnet"
+vnet_address_prefix: "10.0.0.0/21"
+hdb_subnet_name: hdb_subnet
+hdb_subnet_prefix: "10.0.0.0/24"
+hana_nsg_name: "{{ sap_sid }}-nsg"
+hana_nsg_rules_common:
+  - name: SSH
+    protocol: Tcp
+    destination_port_range: 22
+    access: Allow
+    priority: 101
+    direction: Inbound
+  - name: open-hana-db-ports
+    protocol: Tcp
+    priority: 102
+    destination_port_range: "3{{ sap_instancenum }}00-3{{ sap_instancenum }}99"
+
+hana1_rules:
+  - name: HTTP
+    protocol: Tcp
+    priority: 103
+    destination_port_range: "80{{ sap_instancenum }}"
+  - name: HTTPS
+    protocol: Tcp
+    priority: 104
+    destination_port_range: "43{{ sap_instancenum }}"
+
+hana2_rules:
+  - name: XSA-HTTP
+    protocol: Tcp
+    priority: 105
+    destination_port_range: "4000-4999"
+  - name: XSA
+    protocol: Tcp
+    priority: 106
+    destination_port_range: "50000-59999"
+
+hana_nsg_rules: "{{ hana_nsg_rules_common }} + {{ hana2_rules if use_hana2 else hana1_rules }}"
+boot_storage_name: "{{ alias }}{{ sap_sid|lower }}boot"
+boot_storage_account_type: Standard_LRS
+availability_set_name: "ha-pair-availability-set"
+availability_set_update_domain_count: 20
+availability_set_fault_domain_count: 2
+is_ha_pair: true
+num_vms: 3
+ha_pair_lb_name: ha_pair_lb
+private_ip_lb_frontend: 10.0.0.13
+ha_pair_lb_frontend_name: hsr_front
+ha_pair_health_probe_name: health_probe
+
+ha_pair_lb_ports_hana1:
+  - port: "3{{ sap_instancenum }}15"
+  - port: "3{{ sap_instancenum }}17"
+ha_pair_lb_ports_hana2:
+  - port: "3{{ sap_instancenum }}13"
+  - port: "3{{ sap_instancenum }}14"
+  - port: "3{{ sap_instancenum }}40"
+  - port: "3{{ sap_instancenum }}41"
+  - port: "3{{ sap_instancenum }}42"
+
+ha_pair_lb_ports: "{{ ha_pair_lb_ports_hana2 if use_hana2 else ha_pair_lb_ports_hana1 }}"
+
+
+# az_load_balancing_rules:
+#   name: "lb_rule_{{ item.count }}"
+#   frontend_ip_configuration: "{{ ha_pair_lb_frontend_name }}"
+#   probe: "{{ ha_pair_health_probe_name }}"
+#   protocol: Tcp
+#   idle_timeout: 30
+#   enable_floating_ip: true
+#   backend_address_pool: backend_address_pool_ha_pair
+#   frontend_port: "{{ item.port }}"
+#   backend_port: "{{ item.port }}"
+# with_items: "{{ ha_pair_lb_ports }}"

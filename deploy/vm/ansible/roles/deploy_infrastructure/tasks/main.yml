@@ -1,0 +1,98 @@
+---
+# tasks file for deploy_infrastructure
+- name: Create hana-resource-group
+  azure_rm_resourcegroup:
+    name: "{{ az_resource_group_name }}"
+    location: "{{ az_resource_group_region }}"
+    tags:
+        environment: "SAP HANA resource group deployment"
+
+- name: Create virtual network
+  azure_rm_virtualnetwork:
+      resource_group: "{{ az_resource_group_name }}"
+      name: "{{ vnet_name }}"
+      address_prefixes_cidr:
+        - "{{ vnet_address_prefix }}"
+
+- name: Create HANA database subnet
+  azure_rm_subnet:
+      resource_group: "{{ az_resource_group_name }}"
+      virtual_network_name: "{{ vnet_name }}"
+      name: "{{ hdb_subnet_name }}"
+      address_prefix_cidr: "{{ hdb_subnet_prefix }}"
+  register: hdb_subnet
+
+- name: Create NSG for HANA
+  azure_rm_securitygroup:
+      name: "{{ hana_nsg_name }}"
+      resource_group: "{{ az_resource_group_name }}"
+      rules: "{{ hana_nsg_rules }}"
+
+- name: Create boot diagnostics storage
+  azure_rm_storageaccount:
+    resource_group: "{{ az_resource_group_name }}"
+    name: "{{ boot_storage_name }}"
+    account_type: "{{ boot_storage_account_type }}"
+
+- name: Create availability set
+  azure_rm_availabilityset:
+    name: "{{ availability_set_name }}"
+    resource_group: "{{ az_resource_group_name }}"
+    platform_update_domain_count: "{{ availability_set_update_domain_count }}"
+    platform_fault_domain_count: "{{ availability_set_fault_domain_count }}"
+    sku: Aligned
+  when: is_ha_pair
+
+- name: Create lb rules
+  set_fact:
+    az_load_balancing_rule:
+      name: "lb_rule_{{ item.port }}"
+      frontend_ip_configuration: "{{ ha_pair_lb_frontend_name }}"
+      probe: "{{ ha_pair_health_probe_name }}"
+      protocol: Tcp
+      idle_timeout: 30
+      enable_floating_ip: true
+      backend_address_pool: backend_address_pool_ha_pair
+      frontend_port: "{{ item.port }}"
+      backend_port: "{{ item.port }}"
+  with_items: "{{ ha_pair_lb_ports }}"
+  register: az_load_balancing_rules
+  when: is_ha_pair
+
+- name: make a list
+  set_fact: az_load_balancing_rules="{{ az_load_balancing_rules.results | map(attribute='ansible_facts.az_load_balancing_rule') | list }}"
+  when: is_ha_pair
+
+- name: Create HA pair load balancer
+  azure_rm_loadbalancer:
+      resource_group: "{{ az_resource_group_name }}"
+      name: "{{ ha_pair_lb_name }}"
+      frontend_ip_configurations:
+        - name: "{{ ha_pair_lb_frontend_name }}"
+          private_ip_address: "{{ private_ip_lb_frontend }}"
+          private_ip_allocation_method: "Static"
+          subnet: "{{ hdb_subnet.state.id }}"
+      backend_address_pools:
+        - name: backend_address_pool_ha_pair
+      load_balancing_rules: "{{ az_load_balancing_rules }}"
+      probes:
+        - fail_count: 2
+          name: "{{ ha_pair_health_probe_name }}"
+          interval: 5
+          port: "625{{ sap_instancenum }}"
+  when: is_ha_pair
+
+
+- name: Create vms
+  with_sequence: count={{ num_vms }}
+  include_role:
+    name: create_db_node
+  vars:
+    vm_name: "vm-db{{ '%02d'|format(item|int) }}"
+    pip_name: "pip-db{{ '%02d'|format(item|int) }}"
+    nic_name: "nic-db{{ '%02d'|format(item|int) }}"
+    security_group: "{{ hana_nsg_name }}"
+    subnet_name: "{{ hdb_subnet_name }}"
+    db_vnet_name: "{{ vnet_name }}"
+
+

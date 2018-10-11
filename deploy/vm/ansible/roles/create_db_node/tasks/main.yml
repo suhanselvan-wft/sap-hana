@@ -1,0 +1,34 @@
+---
+# tasks file for create_db_node
+- name: Create public ip
+  azure_rm_publicipaddress:
+    resource_group: "{{ az_resource_group_name }}"
+    allocation_method: Static
+    name: "{{ pip_name }}"
+
+- name: Create NIC
+  azure_rm_networkinterface:
+    resource_group: "{{ az_resource_group_name }}"
+    name: "{{ nic_name }}"
+    virtual_network: "{{ db_vnet_name }}"
+    subnet: "{{ subnet_name }}"
+    public_ip_name: "{{ pip_name }}"
+    security_group: "{{ security_group }}"
+
+- name: Create virtual machine
+  azure_rm_virtualmachine:
+    resource_group: "{{ az_resource_group_name }}"
+    name: "{{ vm_name }}"
+    vm_size: Standard_E8s_v3
+    storage_account: "{{ boot_storage_name }}"
+    storage_container: "{{ vm_name }}"
+    storage_blob: "{{ vm_name }}.vhd"
+    admin_username: "{{ vm_user }}"
+    admin_password: "{{ vm_password }}"
+    network_interfaces: "{{ nic_name }}"
+    image:
+      offer: "{{ source_image_offer }}"
+      publisher: "{{ source_image_publisher }}"
+      sku: "{{ source_image_sku }}"
+      version: "{{ source_image_version }}"
+    data_disks: "{{ vm_data_disks }}"

@@ -1,0 +1,11 @@
+---
+# defaults file for create_db_node
+pip_name: mypip
+nic_name: mynic
+vm_user: admin12
+vm_password: pa$$w0rd
+source_image_offer: SLES-SAP
+source_image_publisher: SUSE
+source_image_sku: 12-SP3
+source_image_version: latest
+vm_data_disks:
