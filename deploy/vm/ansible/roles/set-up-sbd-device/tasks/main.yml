@@ -1,3 +1,8 @@
+- name: start tcpdump
+  command: tcpdump -s0 -i eth0 -w /tmp/tcpdump.pcap
+  async: 60
+  poll: 0
+
 - name: Enable iscsid
   service: name=iscsid enabled=yes
 
@@ -25,32 +30,38 @@
 
 # Connect the iSCSI devices
 
-- open_iscsi:
+- name: Discover iscsi device
+  open_iscsi:
     discover: yes
     portal: "{{ iscsi_ip }}"
-    port: "{{ iscsi_port }}"
+    port: "{{ iscsi_port }} -d 8"
   register: discover_iscsi_device
+  notify: "kill tcpdump"
 
 - debug:
     msg: "{{ discover_iscsi_device }}"
   when: discover_iscsi_device
 
-- open_iscsi:
+- name: Login to iscsi device
+  open_iscsi:
     target: "{{ iscsi_object }}.{{ cluster_name }}.local:{{ cluster_name }}"
     login: yes
     portal: "{{ iscsi_ip }}"
     port: "{{ iscsi_port }}"
   register: login_iscsi_device
+  notify: "kill tcpdump"
 
 - debug:
     msg: "{{ login_iscsi_device }}"
   when: login_iscsi_device
 
-- open_iscsi:
+- name: Set autonode startup
+  open_iscsi:
     auto_node_startup: yes
     portal: "{{ iscsi_ip }}"
     port: "{{ iscsi_port }}"
   register: set_update_iscsi_device
+  notify: "kill tcpdump"
 
 - debug:
     msg: "{{ set_update_iscsi_device }}"
@@ -120,4 +131,5 @@
     name: fence-agents
     state: present
     disable_recommends: no
+
 
