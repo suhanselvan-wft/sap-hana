@@ -103,7 +103,7 @@
 
 - hosts: db0
   become: true
-  become_mathod: su
+  become_method: su
   become_user: "{{ sap_sid|lower }}adm"
   roles:
     - configure-hsr-hana2
