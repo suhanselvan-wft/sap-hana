@@ -105,6 +105,8 @@
   become: true
   become_method: su
   become_user: "{{ sap_sid|lower }}adm"
+  vars:
+          ansible_become_pass: "{{ pw_os_sidadm }}"
   roles:
     - configure-hsr-hana2
     - { role: shine-install, when: install_xsa == true and install_shine == true }
