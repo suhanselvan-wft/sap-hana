@@ -1,13 +1,13 @@
 - name: Backup the database
-  shell: . ~/.bashrc
+  shell: |
+      . ~/.bashrc
+      hdbsql -d SYSTEMDB -u SYSTEM -p "{{ pwd_db_system }}" -i {{ sap_instancenum }} "BACKUP DATA USING FILE ('initialbackupSYS')"
   args:
           executable: '/bin/bash'
-
-- shell: hdbsql -d SYSTEMDB -u SYSTEM -p "{{ pwd_db_system }}" -i {{ sap_instancenum }} "BACKUP DATA USING FILE ('initialbackupSYS')"
-  args:
-          executable: '/bin/bash'
-
-- shell: hdbsql -d {{ sap_sid|upper }} -u SYSTEM -p "{{ pwd_db_system }}" -i {{ sap_instancenum }} "BACKUP DATA USING FILE ('initialbackup{{ sap_sid|upper }}')"
+          chdir: /usr/sap/{{ sap_sid|upper }}/HDB{{ sap_instancenum }}/exe/
+- shell: |
+      . ~/.bashrc
+      hdbsql -d {{ sap_sid|upper }} -u SYSTEM -p "{{ pwd_db_system }}" -i {{ sap_instancenum }} "BACKUP DATA USING FILE ('initialbackup{{ sap_sid|upper }}')"
   args:
           executable: '/bin/bash'
   register: check_hdbsql
