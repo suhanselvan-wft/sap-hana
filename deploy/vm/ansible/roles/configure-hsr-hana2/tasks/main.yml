@@ -1,5 +1,7 @@
 - name: Backup the database
-  command: . ~/.bashrc
+  shell: . ~/.bashrc
+  args:
+          executable: '/bin/bash'
 
 - command: hdbsql -d SYSTEMDB -u SYSTEM -p "{{ pwd_db_system }}" -i {{ sap_instancenum }} "BACKUP DATA USING FILE ('initialbackupSYS')"
 
