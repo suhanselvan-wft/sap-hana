@@ -40,4 +40,5 @@ variable "sap_sid" {
 locals {
   empty_string = ""
   new_nsg_name = "${var.sap_sid}-nsg"
+  subnet_names = ["hdb-subnet"]
 }

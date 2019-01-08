@@ -157,20 +157,6 @@ module "vm_and_disk_creation_iscsi" {
   machine_type          = "iscsi"
 }
 
-module "windows_bastion_host" {
-  source             = "../windows_bastion_host"
-  allow_ips          = "${var.allow_ips}"
-  az_domain_name     = "${var.az_domain_name}"
-  az_resource_group  = "${module.common_setup.resource_group_name}"
-  az_region          = "${var.az_region}"
-  sap_sid            = "${var.sap_sid}"
-  subnet_id          = "${module.common_setup.vnet_subnets[0]}"
-  bastion_username   = "${var.bastion_username_windows}"
-  private_ip_address = "${var.private_ip_address_windows_bastion}"
-  pw_bastion         = "${var.pw_bastion_windows}"
-  windows_bastion    = "${var.windows_bastion}"
-}
-
 # Write the required configuration variable to a file, that will be used by the Ansible playbook for creating a linux bastion host
 resource "local_file" "write-config-to-json" {
   content  = "{az_vm_name: \"${local.linux_vm_name}\",az_vnet: \"${module.common_setup.vnet_name}\",az_subnet: \"hdb-subnet\",linux_bastion: ${var.linux_bastion},url_linux_hana_studio: \"${var.url_hana_studio_linux}\", url_linux_sapcar: \"${var.url_sap_sapcar_linux}\",az_resource_group: \"${module.common_setup.resource_group_name}\", az_user: \"${var.vm_user}\", nsg_id: \"${module.common_setup.nsg_id}\", vm_size: \"${var.vm_size}\", private_ip_address: \"${var.private_ip_address_linux_bastion}\",az_public_key: \"${var.sshkey_path_public}\", ssh_private_key_file: \"${var.sshkey_path_private}\"}"
@@ -255,6 +241,21 @@ resource null_resource "delete-iscsi-public-ip" {
 	       ansible-playbook -u '${var.vm_user}' \
 	       --private-key '${var.sshkey_path_private}' \
 	       --extra-vars="{ ip_config_name: \"iscsi-nic-configuration\",azure_nic: \"${module.nic_and_pip_setup_iscsi.nic_name}\", azure_vnet:  \"${module.common_setup.vnet_name}\", azure_subnet: \"hdb-subnet\", azure_nsg: \"${module.common_setup.nsg_id}\", azure_private_ip: \"${var.private_ip_address_iscsi}\", azure_resource_group: \"${module.common_setup.resource_group_name}\", azure_public_ip:  \"${module.nic_and_pip_setup_iscsi.pip_name}\"}" ../../ansible/delete_iscsi_public_ip.yml
+EOT
+  }
+}
+
+# Destroy the Windows bastion host
+resource null_resource "destroy-win-vm" {
+  provisioner "local-exec" {
+    when = "destroy"
+
+    command = <<EOT
+               OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES \
+               AZURE_RESOURCE_GROUPS="${var.az_resource_group}" \
+               ANSIBLE_HOST_KEY_CHECKING="False" \
+               ansible-playbook -u '${var.vm_user}' \
+               --extra-vars="{az_resource_group: \"${module.common_setup.resource_group_name}\", az_vm_name: \"${lower(var.sap_sid)}-win-bastion\"}" ../../ansible/delete_bastion_windows.yml
 EOT
   }
 }

@@ -17,3 +17,7 @@ output "resource_group_name" {
 output "resource_group_location" {
   value = "${azurerm_resource_group.hana-resource-group.location}"
 }
+
+output "subnet_names" {
+  value = "${local.subnet_names}"
+}

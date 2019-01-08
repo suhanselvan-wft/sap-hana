@@ -3,6 +3,15 @@
   roles:
     - update-security-group
 
+- hosts: localhost
+  roles:
+    - { role: infra-win-bastion, when: create_windows_bastion }
+  vars:
+    vm_name: "{{ vm_name_win_bastion }}"
+    private_ip_address: "{{ private_ip_address_windows_bastion }}"
+    domain_name: "{{ az_domain_name }}"
+    az_resource_group: "{{ resource_group }}"
+
 - hosts: "hdb0"
   become: true
   roles:
@@ -19,7 +28,7 @@
     - { role: cockpit-install, when: install_xsa == true and install_cockpit == true }
     - { role: webide-install, when: install_xsa == true and install_webide == true }
 
-- hosts: win_bastion
+- hosts: "{{ vm_name_win_bastion }}"
   connection: winrm
   vars:
     ansible_user: "{{ bastion_username_windows }}"

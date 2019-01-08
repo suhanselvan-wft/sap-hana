@@ -189,3 +189,40 @@ variable "linux_bastion" {
   description = "flag to determine if linux bastion host is needed or not"
   default     = false
 }
+
+variable "vnet_name" {
+  description = "The Vnet that you want to create the hana nodes on"
+}
+
+variable "subnet_name" {
+  description = "The subnet on vnet vnet_name that you want to create the hana nodes on"
+}
+
+variable "az_domain_name" {
+  description = "Prefix to be used in the domain name"
+}
+
+variable "private_ip_address_windows_bastion" {
+  description = "Private ip address of the windows bastion host"
+  default     = ""                                               # only needed if we are creating a windows bastion host
+}
+
+variable "vm_name_win_bastion" {
+  description = "The name of the windows bastion VM to be created"
+}
+
+variable "allow_ips" {
+  description = "The ip addresses that will be allowed by the nsg"
+  type        = "list"
+}
+
+variable "windows_bastion" {
+  description = "Whether or not you want a windows bastion host"
+  default     = false
+}
+
+locals {
+  all_ips      = "\\\"*\\\""
+  empty_list   = []
+  empty_string = ""
+}

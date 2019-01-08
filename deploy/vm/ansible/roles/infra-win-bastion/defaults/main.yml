@@ -1,0 +1,33 @@
+---
+# defaults file for infra-win-bastion
+az_resource_group:
+vm_name: win_bastion
+
+# PIP specific values
+pip_name: "{{ vm_name }}-pip"
+pip_sku: Basic
+pip_allocation_type: "Dynamic"
+domain_name:
+
+# NIC specific values
+nic_name: "{{ vm_name }}-nic"
+subnet_name:
+vnet_name:
+private_ip_address: "10.0.0.4"
+private_ip_allocation: "{{ 'Dynamic' if private_ip_address == '' else 'Static' }}"
+nsg_name:
+
+# VM specific values
+source_image_offer: "WindowsServer"
+source_image_publisher: "MicrosoftWindowsServer"
+source_image_sku: "2016-Datacenter"
+source_image_version: latest
+managed_disk_type: Standard_LRS
+vm_data_disks:
+vm_size: "Standard_D2s_v3"
+vm_user:
+vm_groups:
+
+# script to run inside the VM when windows VM has been provisioned (aka cloud-init) 
+winrm_enable_script: "Invoke-Expression -Command ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1')); Enable-WSManCredSSP -Role Server -Force"
+allow_ips: "*"

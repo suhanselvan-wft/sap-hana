@@ -18,7 +18,16 @@
   roles:
     - geerlingguy.ntp
 
-- hosts: win_bastion
+- hosts: localhost
+  roles:
+    - { role: infra-win-bastion, when: create_windows_bastion }
+  vars:
+    vm_name: "{{ vm_name_win_bastion }}"
+    private_ip_address: "{{ private_ip_address_windows_bastion }}"
+    domain_name: "{{ az_domain_name }}"
+    az_resource_group: "{{ resource_group }}"
+
+- hosts: "{{ vm_name_win_bastion }}"
   connection: winrm
   vars:
     ansible_user: "{{ bastion_username_windows }}"
@@ -28,7 +37,6 @@
     ansible_winrm_server_cert_validation: ignore
   roles:
     - set-up-windows-bastion
-
 
 - hosts: hdb0,hdb1
   become: true
