@@ -14,19 +14,19 @@
         # Azure general values
         az_resource_group: "{{ az_json.az_resource_group }}"
         # PIP specific values
-        pip_name: "{{ az_json.az_vm_name }}-pip"
+        pip_name: "{{ az_json.az_vm_name_linux_bastion }}-pip"
         pip_allocation_type: Dynamic
-        domain_name: "{{az_json.az_vm_name}}"
+        domain_name: "{{az_json.az_vm_name_linux_bastion}}"
         # NIC specific values
         nsg_name: "{{ az_json.nsg_id }}"
-        nic_name: "{{ az_json.az_vm_name}}-nic"
+        nic_name: "{{ az_json.az_vm_name_linux_bastion}}-nic"
         subnet_name: "{{ az_json.az_subnet }}"
         vnet_name: "{{ az_json.az_vnet }}"
-        private_ip_address: "{{ az_json.private_ip_address }}"
+        private_ip_address: "{{ az_json.private_ip_address_linux_bastion }}"
         # VM specific values
         vm_size: Standard_D8s_v3
-        vm_user: "{{ az_json.az_user }}"
-        vm_name: '{{ az_json.az_vm_name }}'
+        vm_user: "{{ az_json.az_user_linux_bastion }}"
+        vm_name: '{{ az_json.az_vm_name_linux_bastion }}'
         ansible_host_groups: bastion_linux_group
         ssh_public_key_file: "{{ az_json.az_public_key }}"
         ssh_private_key_file: "{{ az_json.ssh_private_key_file }}"
@@ -57,4 +57,4 @@
 - name: install HANA Studio
   hosts: bastion_linux_group
   roles:
-          - { role: setup-linux-hana-studio, when: az_json.linux_bastion == true,  azure_user: '{{ az_json.az_user }}', hana_studio_url: '{{ az_json.url_linux_hana_studio }}', sapcar_url: '{{ az_json.url_linux_sapcar }}' }
+          - { role: setup-linux-hana-studio, when: az_json.linux_bastion == true,  azure_user: '{{ az_json.az_user_linux_bastion }}', hana_studio_url: '{{ az_json.url_linux_hana_studio }}', sapcar_url: '{{ az_json.url_linux_sapcar }}' }

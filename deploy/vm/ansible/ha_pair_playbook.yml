@@ -18,26 +18,6 @@
   roles:
     - geerlingguy.ntp
 
-- hosts: localhost
-  roles:
-    - { role: infra-win-bastion, when: create_windows_bastion }
-  vars:
-    vm_name: "{{ vm_name_win_bastion }}"
-    private_ip_address: "{{ private_ip_address_windows_bastion }}"
-    domain_name: "{{ az_domain_name }}"
-    az_resource_group: "{{ resource_group }}"
-
-- hosts: "{{ vm_name_win_bastion }}"
-  connection: winrm
-  vars:
-    ansible_user: "{{ bastion_username_windows }}"
-    ansible_password: "{{ pw_bastion_windows }}"
-    ansible_connection: winrm
-    ansible_winrm_transport: ntlm
-    ansible_winrm_server_cert_validation: ignore
-  roles:
-    - set-up-windows-bastion
-
 - hosts: hdb0,hdb1
   become: true
   any_errors_fatal: true
@@ -143,3 +123,8 @@
   vars:
      config_json_file: ../modules/ha_pair/temp.json
   import_playbook: linux_bastion_host.yml
+
+- name: run playbook for Windows bastion host
+  vars:
+    config_json_file: ../modules/ha_pair/temp.json
+  import_playbook: windows_bastion_host.yml

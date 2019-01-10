@@ -30,21 +30,10 @@ resource null_resource "mount-disks-and-configure-hana" {
      \"url_xsa_hrtt\": \"${var.url_xsa_hrtt}\", \
      \"url_xsa_webide\": \"${var.url_xsa_webide}\", \
      \"url_xsa_mta\": \"${var.url_xsa_mta}\", \
-     \"url_sapcar_windows\": \"${var.url_sapcar_windows}\", \
-     \"url_hana_studio_windows\": \"${var.url_hana_studio_windows}\", \
      \"pwd_db_xsaadmin\": \"${var.pwd_db_xsaadmin}\", \
-     \"pw_bastion_windows\": \"${var.pw_bastion_windows}\", \
-     \"bastion_username_windows\": \"${var.bastion_username_windows}\", \
      \"pwd_db_tenant\": \"${var.pwd_db_tenant}\", \
      \"pwd_db_shine\": \"${var.pwd_db_shine}\", \
      \"email_shine\": \"${var.email_shine}\", \
-     \"vnet_name\": \"${var.vnet_name}\", \
-     \"subnet_name\": \"${var.subnet_name}\", \
-     \"az_domain_name\": \"${var.az_domain_name}\", \
-     \"vm_name_win_bastion\": \"${var.vm_name_win_bastion}\", \
-     \"create_windows_bastion\": \"${var.windows_bastion}\", \
-     \"allow_ips\": ${length(var.allow_ips) > 0 ? jsonencode(var.allow_ips): local.all_ips}, \
-     \"private_ip_address_windows_bastion\": \"${var.private_ip_address_windows_bastion}\", \
      \"install_xsa\": ${var.install_xsa}, \
      \"install_shine\": ${var.install_shine}, \
      \"install_cockpit\": ${var.install_cockpit}, \

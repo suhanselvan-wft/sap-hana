@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Bring in variables from temp.json file
+      include_vars:
+        file: "{{ config_json_file }}"
+        name: az_json
+    - debug:
+        msg: "config passed {{ az_json }}"
+
+- hosts: localhost
+  roles:
+    - { role: infra-win-bastion, when: az_json.create_windows_bastion }
+  vars:
+    vm_name: "{{ az_json.vm_name_win_bastion }}"
+    private_ip_address: "{{ az_json.private_ip_address_windows_bastion }}"
+    domain_name: "{{ az_json.vm_name_win_bastion | lower }}-{{ az_json.az_domain_name }}"
+    az_resource_group: "{{ az_json.az_resource_group }}"
+    allow_ips: "{{ az_json.allow_ips }}"
+    subnet_name: "{{ az_json.az_subnet }}"
+    vnet_name: "{{ az_json.az_vnet }}"
+    bastion_username_windows: "{{ az_json.bastion_username_windows }}"
+    pw_bastion_windows: "{{ az_json.pw_bastion_windows }}"
+
+- hosts: win_bastion
+  tasks:
+    - include_vars:
+        file: "{{ config_json_file }}"
+        name: az_json
+    - debug:
+            msg: "Windows bastion host required: {{az_json.create_windows_bastion}}"
+- hosts: win_bastion
+  connection: winrm
+  vars:
+    ansible_user: "{{ az_json.bastion_username_windows }}"
+    ansible_password: "{{ az_json.pw_bastion_windows }}"
+    ansible_connection: winrm
+    ansible_winrm_transport: ntlm
+    ansible_winrm_server_cert_validation: ignore
+  roles:
+    - set-up-windows-bastion

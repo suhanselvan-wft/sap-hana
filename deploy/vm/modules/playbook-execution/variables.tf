@@ -6,10 +6,6 @@ variable "az_resource_group" {
   description = "Which azure resource group to deploy the HANA setup into.  i.e. <myResourceGroup>"
 }
 
-variable "bastion_username_windows" {
-  description = "The username for the bastion host"
-}
-
 variable "email_shine" {
   description = "e-mail address for SHINE user"
   default     = "shinedemo@microsoft.com"
@@ -48,10 +44,6 @@ variable "private_ip_address_hdb1" {
 variable "private_ip_address_lb_frontend" {
   description = "Private ip address of the load balancer front end in HA pair"
   default     = ""                                                             # not needed in single node case
-}
-
-variable "pw_bastion_windows" {
-  description = "The password for the bastion host"
 }
 
 variable "pw_db_system" {
@@ -109,10 +101,6 @@ variable "url_di_core" {
   default     = ""
 }
 
-variable "url_hana_studio_windows" {
-  description = "URL for the Windows version of HANA Studio to install on the bastion host"
-}
-
 variable "url_portal_services" {
   description = "URL for Portal Services"
   default     = ""
@@ -126,10 +114,6 @@ variable "url_sap_hdbserver" {
 variable "url_sap_sapcar" {
   type        = "string"
   description = "The URL that points to the SAPCAR bits"
-}
-
-variable "url_sapcar_windows" {
-  description = "URL for SAPCAR for Windows to run on the bastion host"
 }
 
 variable "url_sapui5" {
@@ -188,41 +172,4 @@ variable "vms_configured" {
 variable "linux_bastion" {
   description = "flag to determine if linux bastion host is needed or not"
   default     = false
-}
-
-variable "vnet_name" {
-  description = "The Vnet that you want to create the hana nodes on"
-}
-
-variable "subnet_name" {
-  description = "The subnet on vnet vnet_name that you want to create the hana nodes on"
-}
-
-variable "az_domain_name" {
-  description = "Prefix to be used in the domain name"
-}
-
-variable "private_ip_address_windows_bastion" {
-  description = "Private ip address of the windows bastion host"
-  default     = ""                                               # only needed if we are creating a windows bastion host
-}
-
-variable "vm_name_win_bastion" {
-  description = "The name of the windows bastion VM to be created"
-}
-
-variable "allow_ips" {
-  description = "The ip addresses that will be allowed by the nsg"
-  type        = "list"
-}
-
-variable "windows_bastion" {
-  description = "Whether or not you want a windows bastion host"
-  default     = false
-}
-
-locals {
-  all_ips      = "\\\"*\\\""
-  empty_list   = []
-  empty_string = ""
 }

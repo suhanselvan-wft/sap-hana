@@ -240,4 +240,6 @@ variable "linux_bastion" {
 locals {
   #name of the linux vm
   linux_vm_name = "${var.az_domain_name}-linux-bastion"
+
+  all_ips = "\"*\""
 }
