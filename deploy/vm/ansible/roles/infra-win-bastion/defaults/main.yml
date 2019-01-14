@@ -30,4 +30,4 @@ vm_groups:
 
 # script to run inside the VM when windows VM has been provisioned (aka cloud-init) 
 winrm_enable_script: "Invoke-Expression -Command ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1')); Enable-WSManCredSSP -Role Server -Force"
-allow_ips: "*"
+access_allow_ips: "*"

@@ -11,7 +11,7 @@
           protocol: "Tcp"
           direction: "Inbound"
           source_port_range: "*"
-          source_address_prefix: "{{ allow_ips }}"
+          source_address_prefix: "{{ access_allow_ips }}"
           destination_port_range: 3389
         - name: winrm
           priority: 110
@@ -19,7 +19,7 @@
           protocol: "Tcp"
           direction: "Inbound"
           source_port_range: "*"
-          source_address_prefix: "{{ allow_ips }}"
+          source_address_prefix: "{{ access_allow_ips }}"
           destination_port_range: 5986
 - name: Provision PIP
   azure_rm_publicipaddress:
