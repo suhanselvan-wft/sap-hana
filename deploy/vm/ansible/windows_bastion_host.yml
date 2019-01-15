@@ -22,6 +22,18 @@
     bastion_username_windows: "{{ az_json.bastion_username_windows }}"
     pw_bastion_windows: "{{ az_json.pw_bastion_windows }}"
 
+- hosts: localhost
+  tasks:
+    - name: Retrieve the public IP of the new Windows bastion vm
+      azure_rm_publicipaddress_facts:
+        resource_group: "{{ az_json.az_resource_group }}"
+        name:  "{{ az_json.vm_name_win_bastion }}-pip"
+      register: wbh_metadata
+    - name: Log the information in a file
+      copy:
+        content: "{{ wbh_metadata }}"
+        dest: "pip-windows_bastion.json"
+
 - hosts: win_bastion
   tasks:
     - include_vars:

@@ -39,7 +39,7 @@
     - name: Retrieve the public IP of the new linux bastion vm
       azure_rm_publicipaddress_facts:
         resource_group: "{{ az_json.az_resource_group }}"
-        name:  "{{ az_json.az_vm_name }}-pip"
+        name:  "{{ az_json.az_vm_name_linux_bastion }}-pip"
       register: lbh_metadata
     - name: Log the information in a file
       copy:
