@@ -19,6 +19,7 @@ which run different roles to install and configure SAP HANA and required applica
 - [Getting Started](#getting-started)
 - [Supported Applications](#supported-applications)
 - [Required SAP Downloads](#required-sap-downloads)
+- [Contributions](#contributions)
 - [License & Copyright](#license--copyright)
 - [Contact](#contact)
 
