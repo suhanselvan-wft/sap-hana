@@ -298,6 +298,12 @@ Depending on your application requirements, you may need to download additional 
 | WebIDE | | SP00 Patch2  | `XSACSAPWEBIDE00_2-80002257.ZIP` | XSA + WebIDE | `url_xsa_webide` |
 | MTA ext | | SAP Note 2336392  | `sap-xsac-devx-4.0.18.mtaext` | XSA + WebIDE | `url_xsa_mta` |
 
+## Contributions
+
+If you want to contribute to our project, be sure to review the [contribution guidelines](CONTRIBUTING.md).
+
+We use [GitHub issues](https://github.com/Azure/sap-hana/issues/) for feature requests and bugs.
+
 ## License & Copyright
 
 Copyright © 2018-2019 Microsoft Azure.
