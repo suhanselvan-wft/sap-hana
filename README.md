@@ -300,7 +300,7 @@ Depending on your application requirements, you may need to download additional 
 
 ## Contributions
 
-If you want to contribute to our project, be sure to review the [contribution guidelines](CONTRIBUTING.md).
+If you want to contribute to our project, be sure to review the [contributing guidelines](CONTRIBUTING.md).
 
 We use [GitHub issues](https://github.com/Azure/sap-hana/issues/) for feature requests and bugs.
 
