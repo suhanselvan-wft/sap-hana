@@ -37,17 +37,17 @@ variable "install_webide" {
 
 variable "private_ip_address_hdb0" {
   description = "Private ip address of hdb0 in HA pair"
-  default     = ""                                      # not needed in single node case
+  default     = "" # not needed in single node case
 }
 
 variable "private_ip_address_hdb1" {
   description = "Private ip address of hdb1 in HA pair"
-  default     = ""                                      # not needed in single node case
+  default     = "" # not needed in single node case
 }
 
 variable "private_ip_address_lb_frontend" {
   description = "Private ip address of the load balancer front end in HA pair"
-  default     = ""                                                             # not needed in single node case
+  default     = "" # not needed in single node case
 }
 
 variable "pw_bastion_windows" {
@@ -59,9 +59,9 @@ variable "pw_db_system" {
 }
 
 variable "pw_hacluster" {
-  type        = "string"
+  type        = string
   description = "Password for the HA cluster nodes"
-  default     = ""                                  #single node case doesn't need one
+  default     = "" #single node case doesn't need one
 }
 
 variable "pw_os_sapadm" {
@@ -119,12 +119,12 @@ variable "url_portal_services" {
 }
 
 variable "url_sap_hdbserver" {
-  type        = "string"
+  type        = string
   description = "The URL that points to the HDB server 122.17 bits"
 }
 
 variable "url_sap_sapcar" {
-  type        = "string"
+  type        = string
   description = "The URL that points to the SAPCAR bits"
 }
 
@@ -189,3 +189,4 @@ variable "linux_bastion" {
   description = "flag to determine if linux bastion host is needed or not"
   default     = false
 }
+

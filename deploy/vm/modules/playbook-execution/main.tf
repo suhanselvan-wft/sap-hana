@@ -1,5 +1,5 @@
 # This is how we call Ansible and pass in variables from Terraform.
-resource null_resource "mount-disks-and-configure-hana" {
+resource "null_resource" "mount-disks-and-configure-hana" {
   provisioner "local-exec" {
     command = <<EOT
     OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES \
@@ -44,10 +44,13 @@ resource null_resource "mount-disks-and-configure-hana" {
      \"install_webide\": ${var.install_webide}, \
      \"url_cockpit\": \"${var.url_cockpit}\" }" \
      -i '../../ansible/azure_rm.py' ${var.ansible_playbook_path}
-     EOT
+     
+EOT
 
-    environment {
-      HOSTS = "${var.vms_configured}"
+
+    environment = {
+      HOSTS = var.vms_configured
     }
   }
 }
+
