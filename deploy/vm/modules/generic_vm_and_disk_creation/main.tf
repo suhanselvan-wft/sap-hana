@@ -30,6 +30,7 @@ resource "azurerm_managed_disk" "disk" {
   resource_group_name  = var.az_resource_group
   disk_size_gb         = var.storage_disk_sizes_gb[count.index]
   create_option        = "Empty"
+  write_accelerator_enabled = "true"
 }
 
 # All of the disks created above will now be attached to the VM
@@ -61,7 +62,7 @@ resource "azurerm_virtual_machine" "vm" {
   storage_image_reference {
     publisher = "SUSE"
     offer     = "SLES-SAP"
-    sku       = "12-SP3"
+    sku       = "12-SP4"
     version   = "latest"
   }
 
