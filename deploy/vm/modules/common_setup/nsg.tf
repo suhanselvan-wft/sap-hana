@@ -70,3 +70,15 @@ data "azurerm_network_security_group" "nsg_info" {
   resource_group_name = var.use_existing_nsg ? var.existing_nsg_rg : azurerm_resource_group.hana-resource-group.name
 }
 
+
+# This creates the availability set to deploy this node into
+
+resource "azurerm_availability_set" "hana-availability-set" {
+  name                = var.az_availability_set
+  resource_group_name = azurerm_resource_group.hana-resource-group.name
+  location            = azurerm_resource_group.hana-resource-group.location
+  managed             = true
+
+  platform_fault_domain_count = "2"
+  platform_update_domain_count = "2"
+}

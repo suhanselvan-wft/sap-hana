@@ -32,16 +32,5 @@ module "vnet" {
   }
 }
 
-# This creates the availability set to deploy this node into
 
-resource "azurerm_availability_set" "hana-availability-set" {
-  name                = var.az_availability_set
-  location            = var.az_region
-  resource_group_name = var.az_resource_group
-
-  managed             = true
-
-  platform_fault_domain_count = "2"
-  platform_update_domain_count = "2"
-}
 
