@@ -1,5 +1,6 @@
 # Subscription ID of the Azure Subscription to deploy
 subscription_id="76e2a854-f354-47f5-a80c-ab05c6f54cf4"
+
 # Client ID of the Azure Service Principal used to deploy
 client_id="67c10762-31df-4a19-a732-9f1eb19a9c1e"
 
@@ -12,15 +13,21 @@ tenant_id="64d2bae0-5ea5-4785-a741-b8a0071f0a11"
 # Azure region to deploy resource in; please choose the same region as your storage from step 3 (example: "westus2")
 az_region = "westus2"
 
-# Name of resource group to deploy (example: "demo1")
+# Name of existing resource group to deploy (example: "demo1")
 az_resource_group = "demo1"
+
+# Name of the availability set to deploy
+az_availability_set = "demo-avset"
+
+# Name of the availability zone to deploy
+az_availability_zone = "demo-avzone" 
 
 # Unique domain name for easy VM access (example: "hana-on-azure1")
 az_domain_name = "hana-on-azure1"
 
 # Size of the VM to be deployed (example: "Standard_E8s_v3")
 # For HANA platform edition, a minimum of 32 GB of RAM is recommended
-vm_size = "Standard_E8s_v3"
+vm_size = "Standard_D8s_v3"
 
 # Path to the public SSH key to be used for authentication (e.g. "~/.ssh/id_rsa.pub")
 sshkey_path_public = "~/.ssh/id_rsa.pub"
@@ -41,7 +48,7 @@ sap_instancenum = "01"
 url_sap_sapcar_linux = "https://wftsapstorageaccount.blob.core.windows.net/sapbits/SAPCAR_1211-80000935.EXE"
 
 # URL to download HANA DB server package from (see step 6)
-url_sap_hdbserver = "https://wftsapstorageaccount.blob.core.windows.net/sapbits/IMDB_SERVER20_040_0-80002031.SAR"
+url_sap_hdbserver = "https://wftsapstorageaccount.blob.core.windows.net/sapbits/IMDB_SERVER100_122_25-10009569.SAR"
 
 # Password for the OS sapadm user
 pw_os_sapadm = "C@rn1v@l201701!"
@@ -66,7 +73,7 @@ pwd_db_shine = "C@rn1v@l201701!"
 email_shine = "suhans@wftus.com"
 
 # Set this flag to true when installing HANA 2.0 (or false for HANA 1.0)
-useHana2 = true
+useHana2 = false
 
 # Set this flag to true when installing the XSA application server
 install_xsa = false

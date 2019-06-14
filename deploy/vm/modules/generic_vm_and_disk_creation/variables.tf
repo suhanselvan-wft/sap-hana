@@ -10,6 +10,9 @@ variable "az_resource_group" {
   description = "Which Azure resource group to deploy the HANA setup into.  i.e. <myResourceGroup>"
 }
 
+variable "hana_avset_id" {
+  description = "The HANA specific availability set that this node needs to be on."
+}
 variable "machine_name" {
   description = "The name for the VM that is being created."
 }

@@ -30,7 +30,6 @@ resource "azurerm_managed_disk" "disk" {
   resource_group_name  = var.az_resource_group
   disk_size_gb         = var.storage_disk_sizes_gb[count.index]
   create_option        = "Empty"
-  write_accelerator_enabled = "true"
 }
 
 # All of the disks created above will now be attached to the VM
@@ -40,6 +39,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "disk" {
   managed_disk_id    = element(azurerm_managed_disk.disk.*.id, count.index)
   lun                = count.index
   caching            = "ReadWrite"
+ /* write_accelerator_enabled = "true"*/
 }
 
 # Create virtual machine
@@ -48,7 +48,7 @@ resource "azurerm_virtual_machine" "vm" {
   location                      = var.az_region
   resource_group_name           = var.az_resource_group
   network_interface_ids         = [var.nic_id]
-  availability_set_id           = var.availability_set_id
+  availability_set_id           = var.hana_avset_id
   vm_size                       = var.vm_size
   delete_os_disk_on_termination = "true"
 

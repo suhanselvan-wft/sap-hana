@@ -10,6 +10,12 @@ variable "az_resource_group" {
   description = "Which Azure resource group to deploy the HANA setup into.  i.e. <myResourceGroup>"
 }
 
+variable "az_availability_set" {
+  description = "Which Azure Availability Set to deploy the HANA setup into.  i.e. <myAvailabilitySet>"
+}
+
+
+
 variable "existing_nsg_name" {
   description = "The name of the pre-existing nsg that you would like to use"
   default     = ""

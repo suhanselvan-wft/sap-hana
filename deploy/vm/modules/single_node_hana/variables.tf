@@ -35,6 +35,14 @@ variable "az_resource_group" {
   description = "Which Azure resource group to deploy the HANA setup into.  i.e. <myResourceGroup>"
 }
 
+variable "az_availability_set"{
+  description = "Which Availability Set to deploy the HANA DB server into"
+}
+
+variable "az_availability_zone"{
+  description = "Which Availability Zone to deploy the HANA DB server into"
+}
+
 variable "bastion_username_windows" {
   description = "The username for the bastion host"
   default     = "bastion_user"

@@ -24,8 +24,8 @@ module "vm_and_disk_creation" {
   machine_name          = local.machine_name
   vm_user               = var.vm_user
   vm_size               = var.vm_size
+  hana_avset_id	    	= var.hana_avset_id
   nic_id                = module.nic_and_pip_setup.nic_id
-  availability_set_id   = var.availability_set_id
   machine_type          = "database-${var.az_resource_group}"
   tags = {
    "${local.vm_hdb_name}" = ""

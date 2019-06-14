@@ -1,4 +1,4 @@
-variable "availability_set_id" {
+variable "az_availability_set" {
   description = "The id associated with the availability set to put this VM into."
   default     = "" # Empty string denotes that this VM is not in an availability set.
 }
@@ -22,6 +22,10 @@ variable "backend_ip_pool_ids" {
 
 variable "hdb_num" {
   description = "The number of the node that is currently being created."
+}
+
+variable "hana_avset_id" {
+  description = "The HANA specific availability set that this node needs to be on."
 }
 
 variable "hana_subnet_id" {

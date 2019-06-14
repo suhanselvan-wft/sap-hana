@@ -18,3 +18,6 @@ output "resource_group_location" {
   value = azurerm_resource_group.hana-resource-group.location
 }
 
+output "availability_set_id" {
+  value = azurerm_availability_set.hana-availability-set.id
+}

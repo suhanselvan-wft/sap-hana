@@ -11,6 +11,7 @@ module "common_setup" {
   allow_ips         = var.allow_ips
   az_region         = var.az_region
   az_resource_group = var.az_resource_group
+  az_availability_set = var.az_availability_set
   existing_nsg_name = var.existing_nsg_name
   existing_nsg_rg   = var.existing_nsg_rg
   install_xsa       = var.install_xsa
@@ -24,6 +25,7 @@ module "create_hdb" {
 
   az_resource_group         = module.common_setup.resource_group_name
   az_region                 = var.az_region
+  hana_avset_id             = module.common_setup.availability_set_id
   hdb_num                   = 0
   az_domain_name            = var.az_domain_name
   hana_subnet_id            = module.common_setup.vnet_subnets[0]
