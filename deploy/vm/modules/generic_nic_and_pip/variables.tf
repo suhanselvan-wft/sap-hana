@@ -5,6 +5,11 @@ variable "az_resource_group" {
   description = "Which Azure resource group to deploy the HANA setup into.  i.e. <myResourceGroup>"
 }
 
+variable "hana_avzone" {
+  description = "Which Azure availability zone to deploy the HANA setup into."
+  default = ""
+}
+
 variable "az_domain_name" {
   description = "Prefix to be used in the domain name"
 }

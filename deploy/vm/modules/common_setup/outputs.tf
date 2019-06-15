@@ -19,5 +19,5 @@ output "resource_group_location" {
 }
 
 output "availability_set_id" {
-  value = azurerm_availability_set.hana-availability-set.id
+  value = azurerm_availability_set.hana-availability-set[0].id
 }

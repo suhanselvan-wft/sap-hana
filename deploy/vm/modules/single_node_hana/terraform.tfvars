@@ -17,10 +17,10 @@ az_region = "westus2"
 az_resource_group = "demo1"
 
 # Name of the availability set to deploy
-az_availability_set = "demo-avset"
+az_availability_set = ""
 
 # Name of the availability zone to deploy
-az_availability_zone = "demo-avzone" 
+az_availability_zone = "2" 
 
 # Unique domain name for easy VM access (example: "hana-on-azure1")
 az_domain_name = "hana-on-azure1"

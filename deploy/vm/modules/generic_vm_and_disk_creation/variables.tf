@@ -13,6 +13,12 @@ variable "az_resource_group" {
 variable "hana_avset_id" {
   description = "The HANA specific availability set that this node needs to be on."
 }
+
+variable "hana_avzone" {
+  description = "Which Azure availability zone to deploy the HANA setup into."
+  default = ""
+}
+
 variable "machine_name" {
   description = "The name for the VM that is being created."
 }

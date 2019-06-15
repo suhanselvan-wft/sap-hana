@@ -5,6 +5,7 @@ module "nic_and_pip_setup" {
   az_resource_group         = var.az_resource_group
   az_region                 = var.az_region
   az_domain_name            = var.az_domain_name
+  hana_avzone		    = var.hana_avzone
   name                      = local.machine_name
   nsg_id                    = var.nsg_id
   subnet_id                 = var.hana_subnet_id
@@ -20,6 +21,7 @@ module "vm_and_disk_creation" {
   sshkey_path_public    = var.sshkey_path_public
   az_resource_group     = var.az_resource_group
   az_region             = var.az_region
+  hana_avzone		= var.hana_avzone
   storage_disk_sizes_gb = var.storage_disk_sizes_gb
   machine_name          = local.machine_name
   vm_user               = var.vm_user

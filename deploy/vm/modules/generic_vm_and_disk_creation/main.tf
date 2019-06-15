@@ -42,13 +42,14 @@ resource "azurerm_virtual_machine_data_disk_attachment" "disk" {
  /* write_accelerator_enabled = "true"*/
 }
 
-# Create virtual machine
+# Create virtual machine with availability zone
 resource "azurerm_virtual_machine" "vm" {
   name                          = var.machine_name
   location                      = var.az_region
   resource_group_name           = var.az_resource_group
   network_interface_ids         = [var.nic_id]
   availability_set_id           = var.hana_avset_id
+  zones 		        = var.hana_avzone != "5" ? ["${var.hana_avzone}"] : ["5"]
   vm_size                       = var.vm_size
   delete_os_disk_on_termination = "true"
 
@@ -93,4 +94,5 @@ resource "azurerm_virtual_machine" "vm" {
     var.tags,
   )
 }
+
 

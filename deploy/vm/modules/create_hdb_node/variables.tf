@@ -28,6 +28,10 @@ variable "hana_avset_id" {
   description = "The HANA specific availability set that this node needs to be on."
 }
 
+variable "hana_avzone" {
+  description = "The HANA specific availability zone that this node needs to be on."
+}
+
 variable "hana_subnet_id" {
   description = "The HANA specific subnet that this node needs to be on."
 }

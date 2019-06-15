@@ -1,17 +1,18 @@
-# Create public IPs
+# Create public IPs with availability zone
 resource "azurerm_public_ip" "pip" {
   name                         = "${var.name}-pip"
   location                     = var.az_region
   resource_group_name          = var.az_resource_group
   public_ip_address_allocation = var.public_ip_allocation_type
   domain_name_label            = "${lower(var.name)}-${lower(var.az_domain_name)}"
-
+  zones 		       = var.hana_avzone != "5" ? ["${var.hana_avzone}"] : ["5"] 
   idle_timeout_in_minutes = 30
 
   tags = {
     environment = "Terraform SAP HANA deployment"
   }
 }
+
 
 # Create network interface
 resource "azurerm_network_interface" "nic" {

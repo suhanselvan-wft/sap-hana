@@ -74,6 +74,7 @@ data "azurerm_network_security_group" "nsg_info" {
 # This creates the availability set to deploy this node into
 
 resource "azurerm_availability_set" "hana-availability-set" {
+  count 	      = var.az_availability_set != "" ? 1 : 0
   name                = var.az_availability_set
   resource_group_name = azurerm_resource_group.hana-resource-group.name
   location            = azurerm_resource_group.hana-resource-group.location
