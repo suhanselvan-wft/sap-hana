@@ -5,7 +5,7 @@ resource "azurerm_public_ip" "pip" {
   resource_group_name          = var.az_resource_group
   public_ip_address_allocation = var.public_ip_allocation_type
   domain_name_label            = "${lower(var.name)}-${lower(var.az_domain_name)}"
-  zones 		       = var.hana_avzone != "5" ? ["${var.hana_avzone}"] : ["5"] 
+/*  zones 		       = var.hana_avzone != "5" ? ["${var.hana_avzone}"] : ["2"] */
   idle_timeout_in_minutes = 30
 
   tags = {
