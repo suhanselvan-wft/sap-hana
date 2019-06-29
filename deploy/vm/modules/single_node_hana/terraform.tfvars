@@ -1,14 +1,14 @@
 # Subscription ID of the Azure Subscription to deploy
-subscription_id="76e2a854-f354-47f5-a80c-ab05c6f54cf4"
+subscription_id="xxx"
 
 # Client ID of the Azure Service Principal used to deploy
-client_id="67c10762-31df-4a19-a732-9f1eb19a9c1e"
+client_id="xxx"
 
 # Client secret of the Azure Service Principal
-client_secret="_L7l5bxm.0d6GRy+rC+=8lZ028HiB]5X"
+client_secret="xxx"
 
 # Tenant ID of the Azure Subscription to deploy
-tenant_id="64d2bae0-5ea5-4785-a741-b8a0071f0a11"
+tenant_id="xxx"
 
 # Azure region to deploy resource in; please choose the same region as your storage from step 3 (example: "westus2")
 az_region = "westus2"
